@@ -5,12 +5,15 @@ import os
 import sys
 
 from nose.plugins import Plugin
+from nose.plugins.logcapture import LogCapture
 log = logging.getLogger('nose.plugins.printlog')
 
 
 class PrintLog(Plugin):
     name = 'printlog'
     _handler_prefix = 'nose_printlog_'
+    logformat = LogCapture.logformat
+    logdatefmt = LogCapture.logdatefmt
 
     def options(self, parser, env=os.environ):
         super(PrintLog, self).options(parser, env=env)
@@ -19,6 +22,8 @@ class PrintLog(Plugin):
         super(PrintLog, self).configure(options, conf)
         if not self.enabled:
             return
+        self.logformat = options.logcapture_format
+        self.logdatefmt = options.logcapture_datefmt
 
     @classmethod
     def _get_handler_id(cls, test):
@@ -29,6 +34,8 @@ class PrintLog(Plugin):
         root_logger = logging.getLogger()
         handler = logging.StreamHandler(sys.stderr)
         handler.set_name(self._get_handler_id(test))
+        formatter = logging.Formatter(self.logformat, self.logdatefmt)
+        handler.setFormatter(formatter)
         root_logger.addHandler(handler)
 
     def afterTest(self, test):
