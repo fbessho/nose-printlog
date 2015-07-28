@@ -6,7 +6,7 @@ except:
     desc = 'see README.rst'
 
 setup(
-    name='noseprintlog',
+    name='nose-printlog',
     version='0.1.0',
     description='Pring log to console in nose tests',
     long_description=desc,
