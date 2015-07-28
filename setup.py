@@ -7,7 +7,7 @@ except:
 
 setup(
     name='nose-printlog',
-    version='0.1.1',
+    version='0.2.0',
     description='Print log to console in nose tests',
     long_description=desc,
     author='Fumihiro Bessho',
